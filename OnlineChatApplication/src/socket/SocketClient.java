@@ -8,15 +8,15 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public class SocketClient implements Runnable{
+public class SocketClient implements Runnable{//class chay client
     
     public int port;
     public String serverAddr;
-    public Socket socket;
+    public Socket socket;// thong tin soc ket
     public ChatFrame ui;
     public ObjectInputStream In;
-    public ObjectOutputStream Out;
-    public History hist;
+    public ObjectOutputStream Out;//cac luong in out
+    public History hist;// lich su chat chit
     
     public SocketClient(ChatFrame frame) throws IOException{
         ui = frame; this.serverAddr = ui.serverAddr; this.port = ui.port;
@@ -30,23 +30,23 @@ public class SocketClient implements Runnable{
     }
 
     @Override
-    public void run() {
+    public void run() {//lap vo han de hong tin nhan
         boolean keepRunning = true;
         while(keepRunning){
             try {
                 Message msg = (Message) In.readObject();
                 System.out.println("Incoming : "+msg.toString());
                 
-                if(msg.type.equals("message")){
-                    if(msg.recipient.equals(ui.username)){
+                if(msg.type.equals("message")){//tin nhan chat
+                    if(msg.recipient.equals(ui.username)){//gui toi clinet nay thi ghi ra Me
                         ui.jTextArea1.append("["+msg.sender +" > Me] : " + msg.content + "\n");
                     }
-                    else{
+                    else{//con ko thi ghi ten nguoi nhan ... ma gui cho nguoi khac cung doc duoc???
                         ui.jTextArea1.append("["+ msg.sender +" > "+ msg.recipient +"] : " + msg.content + "\n");
                     }
                                             
-                    if(!msg.content.equals(".bye") && !msg.sender.equals(ui.username)){
-                        String msgTime = (new Date()).toString();
+                    if(!msg.content.equals(".bye") && !msg.sender.equals(ui.username)){//neu khong phai la tin dang xuat
+                        String msgTime = (new Date()).toString();						// thi ghi ra history
                         
                         try{
                             hist.addMessage(msg, msgTime);
@@ -56,15 +56,15 @@ public class SocketClient implements Runnable{
                         catch(Exception ex){}  
                     }
                 }
-                else if(msg.type.equals("login")){
-                    if(msg.content.equals("TRUE")){
+                else if(msg.type.equals("login")){//ket qua login tu server
+                    if(msg.content.equals("TRUE")){//chap nhan
                         ui.jButton2.setEnabled(false); ui.jButton3.setEnabled(false);                        
                         ui.jButton4.setEnabled(true); ui.jButton5.setEnabled(true);
                         ui.jTextArea1.append("[SERVER > Me] : Login Successful\n");
-                        ui.jTextField3.setEnabled(false); ui.jPasswordField1.setEnabled(false);
+                        ui.jTextField3.setEnabled(false); ui.jPasswordField1.setEnabled(false);//thay doi hien thi giao dien
                     }
                     else{
-                        ui.jTextArea1.append("[SERVER > Me] : Login Failed\n");
+                        ui.jTextArea1.append("[SERVER > Me] : Login Failed\n");//...
                     }
                 }
                 else if(msg.type.equals("test")){
@@ -74,9 +74,9 @@ public class SocketClient implements Runnable{
                     ui.jTextField1.setEditable(false); ui.jTextField2.setEditable(false);
                     ui.jButton7.setEnabled(true);
                 }
-                else if(msg.type.equals("newuser")){
-                    if(!msg.content.equals(ui.username)){
-                        boolean exists = false;
+                else if(msg.type.equals("newuser")){//neu co nguoi moi dang nhap
+                    if(!msg.content.equals(ui.username)){//neu khong phai minh thi moi add vo
+                        boolean exists = false;//kiem tra xem da co hay chua
                         for(int i = 0; i < ui.model.getSize(); i++){
                             if(ui.model.getElementAt(i).equals(msg.content)){
                                 exists = true; break;
@@ -85,8 +85,8 @@ public class SocketClient implements Runnable{
                         if(!exists){ ui.model.addElement(msg.content); }
                     }
                 }
-                else if(msg.type.equals("signup")){
-                    if(msg.content.equals("TRUE")){
+                else if(msg.type.equals("signup")){//ket qua dang ki tu server
+                    if(msg.content.equals("TRUE")){//thanh cong
                         ui.jButton2.setEnabled(false); ui.jButton3.setEnabled(false);
                         ui.jButton4.setEnabled(true); ui.jButton5.setEnabled(true);
                         ui.jTextArea1.append("[SERVER > Me] : Singup Successful\n");
@@ -112,18 +112,18 @@ public class SocketClient implements Runnable{
                         ui.jTextArea1.append("["+ msg.sender +" > All] : "+ msg.content +" has signed out\n");
                     }
                 }
-                else if(msg.type.equals("upload_req")){
-                    
+                else if(msg.type.equals("upload_req")){// yeu cau gui file
+                    //hoi thoai cho lua chon xuat hien
                     if(JOptionPane.showConfirmDialog(ui, ("Accept '"+msg.content+"' from "+msg.sender+" ?")) == 0){
                         
-                        JFileChooser jf = new JFileChooser();
+                        JFileChooser jf = new JFileChooser();//neu accept thi mo hop thoai cho noi de luu file
                         jf.setSelectedFile(new File(msg.content));
                         int returnVal = jf.showSaveDialog(ui);
                        
                         String saveTo = jf.getSelectedFile().getPath();
                         if(saveTo != null && returnVal == JFileChooser.APPROVE_OPTION){
                             Download dwn = new Download(saveTo, ui);
-                            Thread t = new Thread(dwn);
+                            Thread t = new Thread(dwn);//chay thread download
                             t.start();
                             //send(new Message("upload_res", (""+InetAddress.getLocalHost().getHostAddress()), (""+dwn.port), msg.sender));
                             send(new Message("upload_res", ui.username, (""+dwn.port), msg.sender));
@@ -136,15 +136,15 @@ public class SocketClient implements Runnable{
                         send(new Message("upload_res", ui.username, "NO", msg.sender));
                     }
                 }
-                else if(msg.type.equals("upload_res")){
-                    if(!msg.content.equals("NO")){
+                else if(msg.type.equals("upload_res")){//giu y/c gui file
+                    if(!msg.content.equals("NO")){//duoc chap thuan
                         int port  = Integer.parseInt(msg.content);
-                        String addr = msg.sender;
+                        String addr = msg.sender;//lay dia chi nguoi giu
                         
                         ui.jButton5.setEnabled(false); ui.jButton6.setEnabled(false);
                         Upload upl = new Upload(addr, port, ui.file, ui);
                         Thread t = new Thread(upl);
-                        t.start();
+                        t.start();//chay thread upload
                     }
                     else{
                         ui.jTextArea1.append("[SERVER > Me] : "+msg.sender+" rejected file request\n");
@@ -172,7 +172,7 @@ public class SocketClient implements Runnable{
         }
     }
     
-    public void send(Message msg){
+    public void send(Message msg){//ham viet tin nhan
         try {
             Out.writeObject(msg);
             Out.flush();
@@ -180,7 +180,7 @@ public class SocketClient implements Runnable{
             
             if(msg.type.equals("message") && !msg.content.equals(".bye")){
                 String msgTime = (new Date()).toString();
-                try{
+                try{//viet tin nao thi luu lai
                     hist.addMessage(msg, msgTime);               
                     DefaultTableModel table = (DefaultTableModel) ui.historyFrame.jTable1.getModel();
                     table.addRow(new Object[]{"Me", msg.content, msg.recipient, msgTime});
