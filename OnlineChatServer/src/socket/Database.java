@@ -9,26 +9,26 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.*;
 
-public class Database {
+public class Database {//class quan li database thong tin user
     
-    public String filePath;
+    public String filePath;//duong dan toi file
     
     public Database(String filePath){
         this.filePath = filePath;
     }
     
-    public boolean userExists(String username){
+    public boolean userExists(String username){//kiem tra xem nguoi dung ten username co trong he thong khong
         
         try{
             File fXmlFile = new File(filePath);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(fXmlFile);
-            doc.getDocumentElement().normalize();
+            doc.getDocumentElement().normalize();//tao ra doi tuong doc database
             
-            NodeList nList = doc.getElementsByTagName("user");
+            NodeList nList = doc.getElementsByTagName("user");//lay list theo user ra tu database
             
-            for (int temp = 0; temp < nList.getLength(); temp++) {
+            for (int temp = 0; temp < nList.getLength(); temp++) {//duyet xem username co trong nList ko
                 Node nNode = nList.item(temp);
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element eElement = (Element) nNode;
@@ -45,11 +45,11 @@ public class Database {
         }
     }
     
-    public boolean checkLogin(String username, String password){
+    public boolean checkLogin(String username, String password){//kiem tra username va passwork hop le
         
-        if(!userExists(username)){ return false; }
+        if(!userExists(username)){ return false; }//phai ton tai truoc da
         
-        try{
+        try{//tuong tu ben kia
             File fXmlFile = new File(filePath);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -76,7 +76,7 @@ public class Database {
         }
     }
     
-    public void addUser(String username, String password){
+    public void addUser(String username, String password){//them 1 user vao database
         
         try {
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();

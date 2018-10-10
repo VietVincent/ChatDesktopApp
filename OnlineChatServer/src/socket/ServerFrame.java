@@ -16,14 +16,14 @@ import javax.swing.UIManager.*;
 
 
 
-public class ServerFrame extends javax.swing.JFrame {
+public class ServerFrame extends javax.swing.JFrame {//class giao dien cua server
 
-    public SocketServer server;
+    public SocketServer server;//cai socketServer de chay ui nay(khac serversocket)
     public Thread serverThread;
-    public String filePath = "D:/Data.xml";
+    public String filePath = "D:/Data.xml";//file database mac dinh
     public JFileChooser fileChooser;
     
-    public ServerFrame() {
+    public ServerFrame() {//khoi tao...
     	try {
     	    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
     	        if ("Nimbus".equals(info.getName())) {
@@ -44,20 +44,20 @@ public class ServerFrame extends javax.swing.JFrame {
         jTextArea1.setEditable(false);
     }
     
-    public boolean isWin32(){
+    public boolean isWin32(){//he diu hanh la co phai win32 ko
         return System.getProperty("os.name").startsWith("Windows");
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents() { // khoi tao button, jtextfield,area...
 
         jButton1 = new javax.swing.JButton();
         jButton1.setForeground(Color.LIGHT_GRAY);
         jButton1.setBackground(Color.BLACK);
         jButton1.setText("Start");
         jButton1.setToolTipText("Start");
-        jButton1.setSelectedIcon(new ImageIcon("/home/viet/Projects/Java Code/OnlineChatApplication/OnlineChatServer/img/press-play-button.png"));
+        jButton1.setSelectedIcon(new ImageIcon("/img/press-play-button.png"));
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jTextArea1.setBackground(Color.DARK_GRAY);
@@ -133,24 +133,24 @@ public class ServerFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        server = new SocketServer(this);
-        jButton1.setEnabled(false); jButton2.setEnabled(false);
+        server = new SocketServer(this);//nhan nut start thi tao 1 server moi
+        jButton1.setEnabled(false); jButton2.setEnabled(false);//khong cho bam nut brower nua
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    public void RetryStart(int port){
+    public void RetryStart(int port){//ham ket noi lai
         if(server != null){ server.stop(); }
         server = new SocketServer(this, port);
     }
-    
+    //button2 la nut brower
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         fileChooser.showDialog(this, "Select Database");
-        File file = fileChooser.getSelectedFile();
+        File file = fileChooser.getSelectedFile();//mo hoi thoai chon file
         
         if(file != null){
             filePath = file.getPath();
-            if(this.isWin32()){ filePath = filePath.replace("\\", "/"); }
-            jTextField3.setText(filePath);
-            jButton1.setEnabled(true);
+            if(this.isWin32()){ filePath = filePath.replace("\\", "/"); }//tuy hdh ma chon \\ hay / de cach
+            jTextField3.setText(filePath);//hien duong dan len man hinh
+            jButton1.setEnabled(true);//gio moi cho chon start server
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
