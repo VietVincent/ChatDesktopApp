@@ -6,18 +6,18 @@ import java.net.*;
 
 public class Download implements Runnable{
     
-    public ServerSocket server;
+    public ServerSocket server;//server de hong nguoi gui
     public Socket socket;
     public int port;
-    public String saveTo = "";
-    public InputStream In;
-    public FileOutputStream Out;
-    public ChatFrame ui;
+    public String saveTo = "";//duong dan toi file save...
+    public InputStream In;// doc tu mang
+    public FileOutputStream Out;//ghi ra file
+    public ChatFrame ui;//giao dien
     
-    public Download(String saveTo, ChatFrame ui){
+    public Download(String saveTo, ChatFrame ui){//cai ham khoi tao chu ko phai ham down load
         try {
-            server = new ServerSocket(0);
-            port = server.getLocalPort();
+            server = new ServerSocket(0);//serversocket(0) thi no thay cong nao con trong thi lay
+            port = server.getLocalPort();//gio moi thay co nghia :v
             this.saveTo = saveTo;
             this.ui = ui;
         } 
@@ -38,13 +38,13 @@ public class Download implements Runnable{
             byte[] buffer = new byte[1024];
             int count;
             
-            while((count = In.read(buffer)) >= 0){
-                Out.write(buffer, 0, count);
+            while((count = In.read(buffer)) >= 0){//doc toi khi cai buffer nhan duoc con full
+                Out.write(buffer, 0, count);//ghi ra file
             }
             
             Out.flush();
             
-            ui.jTextArea1.append("[Application > Me] : Download complete\n");
+            ui.jTextArea1.append("[Application > Me] : Download complete\n");//thong bao download thanh cong ra giao dien
             
             if(Out != null){ Out.close(); }
             if(In != null){ In.close(); }

@@ -2,9 +2,9 @@ package ui;
 
 import socket.History;
 
-public class HistoryFrame extends javax.swing.JFrame {
+public class HistoryFrame extends javax.swing.JFrame {//class hien thi lich su chat chit
     
-    public History hist;
+    public History hist;//object chua lich su
     
     public HistoryFrame() {
         initComponents();
@@ -13,7 +13,7 @@ public class HistoryFrame extends javax.swing.JFrame {
     public HistoryFrame(History hist){
         initComponents();
         this.hist = hist;
-        hist.FillTable(this);
+        hist.FillTable(this);//xuat ra bang
     }
     
     @SuppressWarnings("unchecked")

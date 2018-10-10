@@ -12,7 +12,7 @@ import org.w3c.dom.*;
 import ui.HistoryFrame;
 import javax.swing.table.DefaultTableModel;
 
-public class History {
+public class History {//class doc lich su chat chit
     
     public String filePath;
     
@@ -21,7 +21,7 @@ public class History {
     }
     
     public void addMessage(Message msg, String time){
-        
+        //them  tin nhan moi vao history
         try {
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -49,7 +49,7 @@ public class History {
 	    }
 	}
 
-    public void FillTable(HistoryFrame frame){
+    public void FillTable(HistoryFrame frame){//in du lieu trong file ra bang
 
         DefaultTableModel model = (DefaultTableModel) frame.jTable1.getModel();
     
