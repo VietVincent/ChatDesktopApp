@@ -73,7 +73,7 @@ public class SocketServer implements Runnable {//cai nay de quan li 1 list cac s
     public ServerThread clients[];//cac client
     public ServerSocket server = null;//cai nay la serverSocket khac SocketServer
     public Thread       thread = null;
-    public int clientCount = 0, port = 13000; // so luong client dang ket noi va cong ket noi MD:13000
+    public int clientCount = 0, port = 37011; // so luong client dang ket noi va cong ket noi MD:37011
     public ServerFrame ui;//giao dien do
     public Database db;//ds user duoc luu
 

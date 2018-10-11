@@ -1,5 +1,8 @@
 package ui;
 
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+
 import socket.History;
 
 public class HistoryFrame extends javax.swing.JFrame {//class hien thi lich su chat chit
@@ -7,6 +10,16 @@ public class HistoryFrame extends javax.swing.JFrame {//class hien thi lich su c
     public History hist;//object chua lich su
     
     public HistoryFrame() {
+    	try {
+    	    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+    	        if ("Nimbus".equals(info.getName())) {
+    	            UIManager.setLookAndFeel(info.getClassName());
+    	            break;
+    	        }
+    	    }
+    	} catch (Exception e) {
+    	    // If Nimbus is not available, you can set the GUI to another look and feel.
+    	}
         initComponents();
     }
     
