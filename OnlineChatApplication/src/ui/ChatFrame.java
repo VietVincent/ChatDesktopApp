@@ -11,6 +11,8 @@ import java.net.URL;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UIManager.*;
 
@@ -25,6 +27,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
 import javax.swing.DropMode;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 //import oracle.jrockit.jfr.JFR;
 
 public class ChatFrame extends javax.swing.JFrame {
@@ -41,6 +44,7 @@ public class ChatFrame extends javax.swing.JFrame {
     public History hist;
     
     public ChatFrame() {
+    	getContentPane().setFont(new Font("Dialog", Font.PLAIN, 12));
     	setResizable(false);
     	hist = new History(historyFile);
     	historyFrame = new HistoryFrame(hist);
@@ -58,12 +62,22 @@ public class ChatFrame extends javax.swing.JFrame {
     	    // If Nimbus is not available, you can set the GUI to another look and feel.
     	}
         initComponents();
-        this.setSize(700,570);
+        this.setSize(700,600);
         this.setTitle("Online Chat Application");
         model.addElement("All");
         jList1.setSelectedIndex(0);
         
         JScrollPane scrollPane = new JScrollPane();
+        
+        usernameField = new JTextField();
+        usernameField.setFont(new Font("Courier 10 Pitch", Font.BOLD, 18));
+        usernameField.setText("username");
+        usernameField.setEnabled(false);
+        usernameField.setEditable(false);
+        usernameField.setHorizontalAlignment(SwingConstants.CENTER);
+        usernameField.setForeground(UIManager.getColor("CheckBoxMenuItem.acceleratorForeground"));
+        usernameField.setBackground(Color.DARK_GRAY);
+        usernameField.setColumns(10);
         GroupLayout groupLayout = new GroupLayout(getContentPane());
         groupLayout.setHorizontalGroup(
         	groupLayout.createParallelGroup(Alignment.LEADING)
@@ -87,9 +101,13 @@ public class ChatFrame extends javax.swing.JFrame {
         					.addComponent(jButton6, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         					.addComponent(jButton4, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-        					.addComponent(jButton8, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        					.addComponent(jButton8, GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
         					.addComponent(jScrollPane2, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE)))
         			.addGap(20))
+        		.addGroup(groupLayout.createSequentialGroup()
+        			.addContainerGap()
+        			.addComponent(usernameField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(586, Short.MAX_VALUE))
         );
         groupLayout.setVerticalGroup(
         	groupLayout.createParallelGroup(Alignment.LEADING)
@@ -119,7 +137,9 @@ public class ChatFrame extends javax.swing.JFrame {
         				.addComponent(jLabel6)
         				.addComponent(jButton5)
         				.addComponent(jButton6, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        			.addContainerGap(17, Short.MAX_VALUE))
+        			.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        			.addComponent(usernameField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap())
         );
         
         jTextField4 = new JTextArea();
@@ -140,7 +160,6 @@ public class ChatFrame extends javax.swing.JFrame {
             @Override public void windowDeactivated(WindowEvent e) {}
         });
         
-        //hist = new History(historyFile);
     }
     
     public boolean isWin32(){
@@ -200,7 +219,7 @@ public class ChatFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton6.setText("File...");
+        jButton6.setText("Transfer");
         jButton6.setEnabled(false);
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -254,11 +273,12 @@ public class ChatFrame extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
             long size = file.length();
-            if(size < 120 * 1024 * 1024){
+            if(size < 124 * 1024 * 1024){
                 client.send(new Message("upload_req", client.username, file.getName(), jList1.getSelectedValue().toString()));
             }
             else{
-                jTextArea1.append("[Application > Me] : File is size too large\n");
+            	final JPanel panel = new JPanel();
+            	JOptionPane.showMessageDialog(panel, "File is size too large!", "Transfer Failed!", JOptionPane.WARNING_MESSAGE);
             }
     }//GEN-LAST:event_jButton6ActionPerformed
 
@@ -280,6 +300,7 @@ public class ChatFrame extends javax.swing.JFrame {
                 new ChatFrame().setVisible(true);
             }
         });
+        
     }
     public javax.swing.JButton jButton4;
     public javax.swing.JButton jButton5;
@@ -294,4 +315,5 @@ public class ChatFrame extends javax.swing.JFrame {
     public javax.swing.JTextArea jTextArea1;
     public javax.swing.JTextField jTextField5;
     private JTextArea jTextField4;
+    public JTextField usernameField;
 }

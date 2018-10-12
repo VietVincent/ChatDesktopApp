@@ -52,7 +52,7 @@ public class HistoryFrame extends javax.swing.JFrame {//class hien thi lich su c
 
             },
             new String [] {
-                "Sender", "Message", "To", "Time"
+                "From", "Msg", "To", "Time"
             }
         ) {
             Class[] types = new Class [] {

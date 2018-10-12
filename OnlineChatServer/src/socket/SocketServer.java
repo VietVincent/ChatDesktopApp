@@ -27,7 +27,7 @@ class ServerThread extends Thread { //cai thread de xu li client , moi thread xu
             streamOut.flush();
         } 
         catch (IOException ex) {
-        	IP Address
+//IP Address
             System.out.println("Exception [SocketClient : send(...)]");
         }
     }

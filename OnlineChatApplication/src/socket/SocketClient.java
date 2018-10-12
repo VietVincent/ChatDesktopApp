@@ -77,10 +77,10 @@ public class SocketClient implements Runnable{//class chay client
                         username = ui_Login.jTextField3.getText();//==============>
                         password = msg.content;//===============>
                         ui_Chat = new ChatFrame();//=====================>
+                        ui_Chat.usernameField.setText(ui_Login.jTextField3.getText());
                         ui_Chat.setVisible(true);//===================>
                         ui_Login.setVisible(false);//===================>
                         ui_Chat.client = this;
-                        
                         
                         //ui_Login.jButton4.setEnabled(true); ui_Chat.jButton5.setEnabled(true);
                         final JPanel panel = new JPanel();
