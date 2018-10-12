@@ -6,8 +6,13 @@ import java.io.*;
 import java.net.*;
 import java.util.Date;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import ui.HistoryFrame;
 
 public class SocketClient implements Runnable{//class chay client
     
@@ -18,6 +23,8 @@ public class SocketClient implements Runnable{//class chay client
     public String username, password;//================>
     public ChatFrame ui_Chat;
     public LoginFrame ui_Login;
+    public HistoryFrame historyFrame;
+    
     public ObjectInputStream In;
     public ObjectOutputStream Out;//cac luong in out
     public History hist;// lich su chat chit
@@ -31,7 +38,6 @@ public class SocketClient implements Runnable{//class chay client
         Out.flush();
         In = new ObjectInputStream(socket.getInputStream());
         
-        hist = ui_Login.hist;
     }
 
     @Override
@@ -77,16 +83,18 @@ public class SocketClient implements Runnable{//class chay client
                         
                         
                         //ui_Login.jButton4.setEnabled(true); ui_Chat.jButton5.setEnabled(true);
-                        ui_Chat.jTextArea1.append("[SERVER > Me] : Login Successful\n");
+                        ui_Chat.jTextArea1.append("Login Successful\n");
                         ui_Chat.jButton4.setEnabled(true);//====
                         ui_Chat.jButton5.setEnabled(true);//======
                         ui_Chat.jButton6.setEnabled(true);//========
                         ui_Chat.jButton8.setEnabled(true);//==========>
                         ui_Login.jTextField3.setEnabled(false); 
+                        hist = ui_Chat.hist;
                         //ui_Chat.jPasswordField1.setEnabled(false);//thay doi hien thi giao dien
                     }
                     else{
-                        System.out.println("[SERVER > Me] : Login Failed\n");//===========>
+                    	final JPanel panel = new JPanel();
+                    	JOptionPane.showMessageDialog(panel, "Username or password is incorrect or account has already logined!", "Login Failed!", JOptionPane.WARNING_MESSAGE);
                     }
                 }
                 else if(msg.type.equals("test")){
@@ -114,12 +122,29 @@ public class SocketClient implements Runnable{//class chay client
                 }
                 else if(msg.type.equals("signup")){//ket qua dang ki tu server
                     if(msg.content.equals("TRUE")){//thanh cong
+                    	ui_Login.jButton2.setEnabled(false); 
+                        ui_Login.jButton3.setEnabled(false);
+                        username = ui_Login.jTextField3.getText();//==============>
+                        password = msg.content;//===============>
+                        ui_Chat = new ChatFrame();//=====================>
+                        ui_Chat.setVisible(true);//===================>
+                        ui_Login.setVisible(false);//===================>
+                        ui_Chat.client = this;
+                        
+                        
+                        //ui_Login.jButton4.setEnabled(true); ui_Chat.jButton5.setEnabled(true);
+                        ui_Chat.jTextArea1.append("[SERVER > Me] : Login Successful\n");
+                        ui_Chat.jButton4.setEnabled(true);//====
+                        ui_Chat.jButton5.setEnabled(true);//======
+                        ui_Chat.jButton6.setEnabled(true);//========
+                        ui_Chat.jButton8.setEnabled(true);//==========>
                         ui_Login.jButton2.setEnabled(false); ui_Login.jButton3.setEnabled(false);
-                        //ui_Chat.jButton4.setEnabled(true); ui_Chat.jButton5.setEnabled(true);
+                        ui_Chat.jButton4.setEnabled(true); ui_Chat.jButton5.setEnabled(true);
                         ui_Chat.jTextArea1.append("[SERVER > Me] : Singup Successful\n");
                     }
                     else{
-                        ui_Chat.jTextArea1.append("[SERVER > Me] : Signup Failed\n");
+                    	final JPanel panel = new JPanel();
+                    	JOptionPane.showMessageDialog(panel, "Username already exist!", "Signup Failed!", JOptionPane.WARNING_MESSAGE);
                     }
                 }
                 else if(msg.type.equals("signout")){

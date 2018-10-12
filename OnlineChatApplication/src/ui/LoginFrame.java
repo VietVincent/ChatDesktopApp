@@ -9,6 +9,8 @@ import java.io.File;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UIManager.*;
 import javax.swing.GroupLayout.Alignment;
@@ -17,6 +19,9 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import net.miginfocom.swing.MigLayout;
 import java.awt.Font;
 import java.awt.Color;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
 //import oracle.jrockit.jfr.JFR;
 
 public class LoginFrame extends javax.swing.JFrame {
@@ -32,9 +37,9 @@ public class LoginFrame extends javax.swing.JFrame {
     public DefaultListModel model;
     public File file;
     File location =  new File(new File("").getAbsolutePath());
-    public String historyFile = location + "/History.xml"; //file history mac dinh
+    /*public String historyFile = location + "/History.xml"; //file history mac dinh
     public HistoryFrame historyFrame;
-    public History hist;
+    public History hist;*/
     public ChatFrame chat_man;//=======================>
     
     public LoginFrame() {
@@ -78,8 +83,7 @@ public class LoginFrame extends javax.swing.JFrame {
             @Override public void windowActivated(WindowEvent e) {}
             @Override public void windowDeactivated(WindowEvent e) {}
         });
-        
-        hist = new History(historyFile);
+
     }
     
     public boolean isWin32(){
@@ -98,12 +102,14 @@ public class LoginFrame extends javax.swing.JFrame {
         jButton1.setForeground(UIManager.getColor("CheckBoxMenuItem.acceleratorForeground"));
         jButton1.setFont(new Font("Ubuntu", Font.BOLD, 16));
         jTextField3 = new javax.swing.JTextField();
+        jTextField3.setText("Viet");
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jButton3.setForeground(UIManager.getColor("CheckBoxMenuItem.acceleratorForeground"));
         jButton3.setFont(new Font("Ubuntu", Font.BOLD, 16));
         jPasswordField1 = new javax.swing.JPasswordField();
+        jPasswordField1.setToolTipText("");
         jButton2 = new javax.swing.JButton();
         jButton2.setForeground(UIManager.getColor("CheckBoxMenuItem.acceleratorForeground"));
         jButton2.setFont(new Font("Ubuntu", Font.BOLD, 16));
@@ -174,6 +180,10 @@ public class LoginFrame extends javax.swing.JFrame {
         if(!username.isEmpty() && !password.isEmpty()){
             client.send(new Message("login", username, password, "SERVER"));
         }
+        else {
+        	final JPanel panel = new JPanel();
+        	JOptionPane.showMessageDialog(panel, "Username and password must be provided!", "Login Failed!", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -182,6 +192,10 @@ public class LoginFrame extends javax.swing.JFrame {
         
         if(!username.isEmpty() && !password.isEmpty()){
             client.send(new Message("signup", username, password, "SERVER"));
+        }
+        else {
+        	final JPanel panel = new JPanel();
+        	JOptionPane.showMessageDialog(panel, "Username and password must be provided!", "Signup Failed!", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
