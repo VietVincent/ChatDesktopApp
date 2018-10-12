@@ -53,10 +53,10 @@ public class SocketClient implements Runnable{//class chay client
                 
                 if(msg.type.equals("message")){//tin nhan chat
                     if(msg.recipient.equals(username)){//gui_Chat toi clinet nay thi ghi ra Me
-                        ui_Chat.jTextArea1.append("["+msg.sender +" > Me] : " + msg.content + "\n");
+                        ui_Chat.jTextArea1.append("["+msg.sender +" --> You] :\n " + msg.content + "\n");
                     }
-                    else{//con ko thi ghi ten nguoi nhan ... ma gui_Chat cho nguoi khac cung doc duoc???
-                        ui_Chat.jTextArea1.append("["+ msg.sender +" > "+ msg.recipient +"] : " + msg.content + "\n");
+                    else{//con ko thi ghi ten nguoi nhan ... ma gui_Chat cho nguoi khac cung doc duoc??? Deo nha coi ki lai di!!!
+                        ui_Chat.jTextArea1.append("["+ msg.sender +" --> "+ msg.recipient +"] :\n " + msg.content + "\n");
                     }
                                             
                     if(!msg.content.equals(".bye") && !msg.sender.equals(username)){//neu khong phai la tin dang xuat

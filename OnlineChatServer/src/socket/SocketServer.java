@@ -87,11 +87,11 @@ public class SocketServer implements Runnable {//cai nay de quan li 1 list cac s
 	try{  // ko co try catch no ko chiu
 	    server = new ServerSocket(port);//tao cai de hong client ket noi
             port = server.getLocalPort();//???
-	    ui.jTextArea1.append("[IP Address] : " + InetAddress.getLocalHost() + ", [Port] : " + server.getLocalPort());//cai dong thong bao
+	    ui.jTextArea1.append("[Server IP] : " + InetAddress.getLocalHost() + "\n [Port] : " + server.getLocalPort());//cai dong thong bao
 	    start(); 
         }
 	catch(IOException ioe){  
-            ui.jTextArea1.append("Can not bind to port : " + port + "\nRetrying"); 
+            ui.jTextArea1.append("Fail to bind to port : " + port + "\nRetrying..."); 
             ui.RetryStart(0);//tao ko duoc thi lam lai tu dau
 	}
     }
@@ -106,18 +106,18 @@ public class SocketServer implements Runnable {//cai nay de quan li 1 list cac s
 	try{  
 	    server = new ServerSocket(port);
             port = server.getLocalPort();
-	    ui.jTextArea1.append("[IP Address] : " + InetAddress.getLocalHost() + ", [Port] : " + server.getLocalPort());
+	    ui.jTextArea1.append("[Server IP] : " + InetAddress.getLocalHost() + "\n [Port] : " + server.getLocalPort());
 	    start(); 
         }
 	catch(IOException ioe){  
-            ui.jTextArea1.append("\nCan not bind to port " + port + ": " + ioe.getMessage()); 
+            ui.jTextArea1.append("\nFail to bind to port " + port + ": " + ioe.getMessage()); 
 	}
     }
 	
     public void run(){  //thread.start la no goi cai nay chu dau
 	while (thread != null){  
             try{  
-		ui.jTextArea1.append("\nWaiting for a client ..."); 
+		ui.jTextArea1.append("\nWaiting for a client..."); 
 	        addThread(server.accept()); //hong duoc client nao thi cho no vo list luon va tiep tuc hong tiep
 	    }
 	    catch(Exception ioe){ 
