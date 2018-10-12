@@ -83,7 +83,8 @@ public class SocketClient implements Runnable{//class chay client
                         
                         
                         //ui_Login.jButton4.setEnabled(true); ui_Chat.jButton5.setEnabled(true);
-                        ui_Chat.jTextArea1.append("Login Successful\n");
+                        final JPanel panel = new JPanel();
+                    	JOptionPane.showMessageDialog(panel, "You have already logged into the application!", "Login Successful!", JOptionPane.INFORMATION_MESSAGE);
                         ui_Chat.jButton4.setEnabled(true);//====
                         ui_Chat.jButton5.setEnabled(true);//======
                         ui_Chat.jButton6.setEnabled(true);//========
@@ -91,7 +92,7 @@ public class SocketClient implements Runnable{//class chay client
                         ui_Login.jTextField3.setEnabled(false); 
                         hist = ui_Chat.hist;
                         //ui_Chat.jPasswordField1.setEnabled(false);//thay doi hien thi giao dien
-                    }
+                    }	
                     else{
                     	final JPanel panel = new JPanel();
                     	JOptionPane.showMessageDialog(panel, "Username or password is incorrect or account has already logined!", "Login Failed!", JOptionPane.WARNING_MESSAGE);
@@ -133,14 +134,14 @@ public class SocketClient implements Runnable{//class chay client
                         
                         
                         //ui_Login.jButton4.setEnabled(true); ui_Chat.jButton5.setEnabled(true);
-                        ui_Chat.jTextArea1.append("[SERVER > Me] : Login Successful\n");
+                        final JPanel panel = new JPanel();
+                    	JOptionPane.showMessageDialog(panel, "You have already logged into the application!", "Signup Successful!", JOptionPane.INFORMATION_MESSAGE);
                         ui_Chat.jButton4.setEnabled(true);//====
                         ui_Chat.jButton5.setEnabled(true);//======
                         ui_Chat.jButton6.setEnabled(true);//========
                         ui_Chat.jButton8.setEnabled(true);//==========>
                         ui_Login.jButton2.setEnabled(false); ui_Login.jButton3.setEnabled(false);
                         ui_Chat.jButton4.setEnabled(true); ui_Chat.jButton5.setEnabled(true);
-                        ui_Chat.jTextArea1.append("[SERVER > Me] : Singup Successful\n");
                     }
                     else{
                     	final JPanel panel = new JPanel();
@@ -149,7 +150,7 @@ public class SocketClient implements Runnable{//class chay client
                 }
                 else if(msg.type.equals("signout")){
                     if(msg.content.equals(username)){
-                        ui_Chat.jTextArea1.append("["+ msg.sender +" > Me] : Bye\n");
+                        ui_Chat.jTextArea1.append("["+ msg.sender +"] has already logged out!\n");
                         ui_Login.jButton1.setEnabled(true); 
                         //ui_Chat.jButton4.setEnabled(false); 
                         ui_Login.jTextField1.setEditable(true); 
@@ -163,7 +164,7 @@ public class SocketClient implements Runnable{//class chay client
                     }
                     else{
                         ui_Chat.model.removeElement(msg.content);
-                        ui_Chat.jTextArea1.append("["+ msg.sender +" > All] : "+ msg.content +" has signed out\n");
+                        ui_Chat.jTextArea1.append("["+ msg.content +"] has already logged out!\n");
                     }
                 }
                 else if(msg.type.equals("upload_req")){// yeu cau gui_Chat file
@@ -194,23 +195,28 @@ public class SocketClient implements Runnable{//class chay client
                     if(!msg.content.equals("NO")){//duoc chap thuan
                         int port  = Integer.parseInt(msg.content);
                         String addr = msg.sender;//lay dia chi nguoi giu
-                        
+                    	final JPanel panel = new JPanel();
+                    	JOptionPane.showMessageDialog(panel, "["+msg.sender+"] accepted file request!", "Transfer Successful!", JOptionPane.INFORMATION_MESSAGE);
                         ui_Chat.jButton5.setEnabled(false); ui_Chat.jButton6.setEnabled(false);
                         Upload upl = new Upload(addr, port, ui_Chat.file, ui_Chat);
                         Thread t = new Thread(upl);
                         t.start();//chay thread upload
                     }
                     else{
-                        ui_Chat.jTextArea1.append("[SERVER > Me] : "+msg.sender+" rejected file request\n");
+                    	final JPanel panel = new JPanel();
+                    	JOptionPane.showMessageDialog(panel, "["+msg.sender+"] rejected file request!", "Transfer Failed!", JOptionPane.INFORMATION_MESSAGE);
+                        //ui_Chat.jTextArea1.append("["+msg.sender+"] rejected file request\n");
                     }
                 }
                 else{
-                    ui_Chat.jTextArea1.append("[SERVER > Me] : Unknown message type\n");
+                	final JPanel panel = new JPanel();
+                	JOptionPane.showMessageDialog(panel, "Unknown message type!", "Warning!", JOptionPane.WARNING_MESSAGE);
                 }
             }
             catch(Exception ex) {
                 keepRunning = false;
-                System.out.println("[Application > Me] : Connection Failure\n");//===================>
+                final JPanel panel = new JPanel();
+            	JOptionPane.showMessageDialog(panel, "Connection Failure!", "Warning!", JOptionPane.WARNING_MESSAGE);
                 ui_Login.jButton1.setEnabled(true); 
                 ui_Login.jTextField1.setEditable(true); 
                 ui_Login.jTextField2.setEditable(true);
@@ -221,8 +227,7 @@ public class SocketClient implements Runnable{//class chay client
                 }
                 
                 clientThread.stop();
-                
-                System.out.println("Exception SocketClient run()");
+                JOptionPane.showMessageDialog(panel, "Exception SocketClient run()!", "Warning!", JOptionPane.WARNING_MESSAGE);
                 ex.printStackTrace();
             }
         }
@@ -245,7 +250,8 @@ public class SocketClient implements Runnable{//class chay client
             }
         } 
         catch (IOException ex) {
-            System.out.println("Exception SocketClient send()");
+        	final JPanel panel = new JPanel();
+        	JOptionPane.showMessageDialog(panel, "Exception SocketClient send()!", "Warning!", JOptionPane.WARNING_MESSAGE);
         }
     }
     

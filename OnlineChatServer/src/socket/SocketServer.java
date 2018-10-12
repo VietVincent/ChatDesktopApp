@@ -27,6 +27,7 @@ class ServerThread extends Thread { //cai thread de xu li client , moi thread xu
             streamOut.flush();
         } 
         catch (IOException ex) {
+        	IP Address
             System.out.println("Exception [SocketClient : send(...)]");
         }
     }
@@ -86,7 +87,7 @@ public class SocketServer implements Runnable {//cai nay de quan li 1 list cac s
 	try{  // ko co try catch no ko chiu
 	    server = new ServerSocket(port);//tao cai de hong client ket noi
             port = server.getLocalPort();//???
-	    ui.jTextArea1.append("Server startet. IP : " + InetAddress.getLocalHost() + ", Port : " + server.getLocalPort());//cai dong thong bao
+	    ui.jTextArea1.append("[IP Address] : " + InetAddress.getLocalHost() + ", [Port] : " + server.getLocalPort());//cai dong thong bao
 	    start(); 
         }
 	catch(IOException ioe){  
@@ -105,7 +106,7 @@ public class SocketServer implements Runnable {//cai nay de quan li 1 list cac s
 	try{  
 	    server = new ServerSocket(port);
             port = server.getLocalPort();
-	    ui.jTextArea1.append("Server startet. IP : " + InetAddress.getLocalHost() + ", Port : " + server.getLocalPort());
+	    ui.jTextArea1.append("[IP Address] : " + InetAddress.getLocalHost() + ", [Port] : " + server.getLocalPort());
 	    start(); 
         }
 	catch(IOException ioe){  
