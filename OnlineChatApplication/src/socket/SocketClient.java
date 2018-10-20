@@ -1,7 +1,7 @@
 package socket;
 
-import ui.ChatFrame;
 import ui.LoginFrame;
+import ui.ChatFrame;
 import java.io.*;
 import java.net.*;
 import java.util.Date;
@@ -51,12 +51,34 @@ public class SocketClient implements Runnable{//class chay client
                 Message msg = (Message) In.readObject();
                 System.out.println("Incoming : "+msg.toString());
                 
-                if(msg.type.equals("message")){//tin nhan chat
-                    if(msg.recipient.equals(username)){//gui_Chat toi clinet nay thi ghi ra Me
-                        ui_Chat.jTextArea1.append("["+msg.sender +" --> You] :\n " + msg.content + "\n");
+                if(msg.type.equals("message")) {//tin nhan chat
+                    if(msg.recipient.equals(username)){//Neu goi ca nhan thi in ra nay neu recipient la all thi chay cai duoi
+                    	int index = 0;
+                    	for (int i = 1; i < ui_Chat.model.getSize(); i++) {
+                    		String find = ui_Chat.model.get(i).toString();
+                    		if(msg.sender.equals(find)) {
+                    			index = i;
+                    			break;
+                    		}
+                    	}
+                    	if(index != 0)
+                    		ui_Chat.chatArea[index].append(">>"+ String.format("%-20s", msg.sender+":") +"\n " + msg.content + "\n");
                     }
-                    else{//con ko thi ghi ten nguoi nhan ... ma gui_Chat cho nguoi khac cung doc duoc??? Deo nha coi ki lai di!!!
-                        ui_Chat.jTextArea1.append("["+ msg.sender +" --> "+ msg.recipient +"] :\n " + msg.content + "\n");
+                    else {
+                    	if(msg.recipient.equals("All"))
+                    		ui_Chat.chatArea[0].append(">>"+ String.format("%-20s", msg.sender+":") +"\n " + msg.content + "\n");
+                    	else {
+                    		int index = 0;
+                        	for (int i = 1; i < ui_Chat.model.getSize(); i++) {
+                        		String find = ui_Chat.model.get(i).toString();
+                        		if(msg.recipient.equals(find)) {
+                        			index = i;
+                        			break;
+                        		}
+                        	}
+                        	if(index != 0)
+                        		ui_Chat.chatArea[index].append(">>"+String.format("%-20s", msg.sender+":") +"\n " + msg.content + "\n");
+                    	}
                     }
                                             
                     if(!msg.content.equals(".bye") && !msg.sender.equals(username)){//neu khong phai la tin dang xuat
@@ -64,8 +86,9 @@ public class SocketClient implements Runnable{//class chay client
                         
                         try{
                             hist.addMessage(msg, msgTime);
-                            DefaultTableModel table = (DefaultTableModel) ui_Chat.historyFrame.jTable1.getModel();
-                            table.addRow(new Object[]{msg.sender, msg.content, "Me", msgTime});
+                            //TODO: Hien thuc logout dang nhap lai van con thay tin nhan cu
+                            //DefaultTableModel table = (DefaultTableModel) ui_Chat.historyFrame.jTable1.getModel();
+                            //table.addRow(new Object[]{msg.sender, msg.content, "Me", msgTime});
                         }
                         catch(Exception ex){}  
                     }
@@ -76,22 +99,17 @@ public class SocketClient implements Runnable{//class chay client
                         ui_Login.jButton3.setEnabled(false);
                         username = ui_Login.jTextField3.getText();//==============>
                         password = msg.content;//===============>
+                        //ui_Chat.setVisible(false);
                         ui_Chat = new ChatFrame();//=====================>
-                        ui_Chat.usernameField.setText(ui_Login.jTextField3.getText());
                         ui_Chat.setVisible(true);//===================>
                         ui_Login.setVisible(false);//===================>
                         ui_Chat.client = this;
-                        
-                        //ui_Login.jButton4.setEnabled(true); ui_Chat.jButton5.setEnabled(true);
+                
                         final JPanel panel = new JPanel();
                     	JOptionPane.showMessageDialog(panel, "You have already logged into the application!", "Login Successful!", JOptionPane.INFORMATION_MESSAGE);
-                        ui_Chat.jButton4.setEnabled(true);//====
-                        ui_Chat.jButton5.setEnabled(true);//======
-                        ui_Chat.jButton6.setEnabled(true);//========
-                        ui_Chat.jButton8.setEnabled(true);//==========>
-                        ui_Login.jTextField3.setEnabled(false); 
+                     
+                    	//ui_Login.jTextField3.setEnabled(false); 
                         hist = ui_Chat.hist;
-                        //ui_Chat.jPasswordField1.setEnabled(false);//thay doi hien thi giao dien
                     }	
                     else{
                     	final JPanel panel = new JPanel();
@@ -106,9 +124,6 @@ public class SocketClient implements Runnable{//class chay client
                     ui_Login.jTextField3.setEditable(true);
                     ui_Login.jPasswordField1.setEnabled(true);
                     ui_Login.jPasswordField1.setEditable(true);
-                    //ui_Chat.jTextField3.setEnabled(true); ui_Chat.jPasswordField1.setEnabled(true);
-                    //ui_Chat.jTextField1.setEditable(false); ui_Chat.jTextField2.setEditable(false);
-                    //ui_Chat.jButton7.setEnabled(true);
                 }
                 else if(msg.type.equals("newuser")){//neu co nguoi moi dang nhap
                     if(!msg.content.equals(username)){//neu khong phai minh thi moi add vo
@@ -133,15 +148,10 @@ public class SocketClient implements Runnable{//class chay client
                         ui_Chat.client = this;
                         
                         
-                        //ui_Login.jButton4.setEnabled(true); ui_Chat.jButton5.setEnabled(true);
                         final JPanel panel = new JPanel();
                     	JOptionPane.showMessageDialog(panel, "You have already logged into the application!", "Signup Successful!", JOptionPane.INFORMATION_MESSAGE);
-                        ui_Chat.jButton4.setEnabled(true);//====
-                        ui_Chat.jButton5.setEnabled(true);//======
-                        ui_Chat.jButton6.setEnabled(true);//========
-                        ui_Chat.jButton8.setEnabled(true);//==========>
-                        ui_Login.jButton2.setEnabled(false); ui_Login.jButton3.setEnabled(false);
-                        ui_Chat.jButton4.setEnabled(true); ui_Chat.jButton5.setEnabled(true);
+                    	
+                    	ui_Login.jButton2.setEnabled(false); ui_Login.jButton3.setEnabled(false);
                     }
                     else{
                     	final JPanel panel = new JPanel();
@@ -150,7 +160,8 @@ public class SocketClient implements Runnable{//class chay client
                 }
                 else if(msg.type.equals("signout")){
                     if(msg.content.equals(username)){
-                        ui_Chat.jTextArea1.append("["+ msg.sender +"] has already logged out!\n");
+                    	//TODO: Hien thuc lai logout
+                        ui_Chat.chatArea[0].append("["+ msg.sender +"] has already logged out!\n");
                         ui_Login.jButton1.setEnabled(true); 
                         //ui_Chat.jButton4.setEnabled(false); 
                         ui_Login.jTextField1.setEditable(true); 
@@ -164,7 +175,7 @@ public class SocketClient implements Runnable{//class chay client
                     }
                     else{
                         ui_Chat.model.removeElement(msg.content);
-                        ui_Chat.jTextArea1.append("["+ msg.content +"] has already logged out!\n");
+                        //ui_Chat.jTextArea1.append("["+ msg.content +"] has already logged out!\n");
                     }
                 }
                 else if(msg.type.equals("upload_req")){// yeu cau gui_Chat file
@@ -197,7 +208,7 @@ public class SocketClient implements Runnable{//class chay client
                         String addr = msg.sender;//lay dia chi nguoi giu
                     	final JPanel panel = new JPanel();
                     	JOptionPane.showMessageDialog(panel, "["+msg.sender+"] accepted file request!", "Transfer Successful!", JOptionPane.INFORMATION_MESSAGE);
-                        ui_Chat.jButton5.setEnabled(false); ui_Chat.jButton6.setEnabled(false);
+                        //ui_Chat.jButton5.setEnabled(false); ui_Chat.jButton6.setEnabled(false);
                         Upload upl = new Upload(addr, port, ui_Chat.file, ui_Chat);
                         Thread t = new Thread(upl);
                         t.start();//chay thread upload
@@ -243,8 +254,8 @@ public class SocketClient implements Runnable{//class chay client
                 String msgTime = (new Date()).toString();
                 try{//viet tin nao thi luu lai
                     hist.addMessage(msg, msgTime);               
-                    DefaultTableModel table = (DefaultTableModel) ui_Chat.historyFrame.jTable1.getModel();
-                    table.addRow(new Object[]{"Me", msg.content, msg.recipient, msgTime});
+                    //DefaultTableModel table = (DefaultTableModel) ui_Chat.historyFrame.jTable1.getModel();
+                    //table.addRow(new Object[]{"Me", msg.content, msg.recipient, msgTime});
                 }
                 catch(Exception ex){}
             }

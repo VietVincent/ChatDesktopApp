@@ -1,9 +1,8 @@
 package socket;
 
-import ui.ChatFrame;
 import java.io.*;
 import java.net.*;
-
+import ui.ChatFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 

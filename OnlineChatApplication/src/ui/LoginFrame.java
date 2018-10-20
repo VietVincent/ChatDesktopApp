@@ -1,5 +1,6 @@
 package ui;
 
+import ui.ChatFrame;
 import socket.History;
 import socket.Message;
 import socket.SocketClient;
