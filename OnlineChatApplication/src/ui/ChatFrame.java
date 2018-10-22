@@ -41,6 +41,10 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+import ui.LoginFrame;
 
 public class ChatFrame extends JFrame {
 	/**
@@ -74,7 +78,19 @@ public class ChatFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public ChatFrame() {
-		setTitle("JatQ");
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				try {
+					client.sendToServer(new Message("message", client.username, ".bye", "SERVER","nani", -1));
+				}
+				catch(Exception ex) {
+					
+				}
+			}
+		});
+		hist = new History(historyFile);//=========>
+		setTitle("Have fun with JatQ!");
 		setResizable(false);
 		setBackground(Color.DARK_GRAY);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -145,10 +161,29 @@ public class ChatFrame extends JFrame {
 			@Override
 			public void keyTyped(KeyEvent e) {
 				String msg = inputTextArea.getText();
-				if(!msg.isEmpty())
+				if(!msg.trim().isEmpty())
 					sendBtn.setEnabled(true);
 				else
 					sendBtn.setEnabled(false);
+			}
+			@Override
+			public void keyPressed(KeyEvent e) {
+				String msg = inputTextArea.getText();
+				if ((e.getKeyCode() == KeyEvent.VK_ENTER) && e.isShiftDown() && !msg.trim().isEmpty())
+					inputTextArea.append("\n");
+				else if(e.getKeyCode() == KeyEvent.VK_ENTER && !msg.trim().isEmpty()) {
+			        String target = usernameList.getSelectedValue().toString();
+			        
+			        if(!target.isEmpty()){
+			        	inputTextArea.setText("");
+			            client.sendToClient(new Message("message", client.username, msg, target,"nani", -1));
+			        }
+			        else {
+			        	inputTextArea.setText("");
+			        }
+				}
+				else if(e.getKeyCode() == KeyEvent.VK_ENTER)
+					inputTextArea.setText("");
 			}
 		});
 		
@@ -179,7 +214,6 @@ public class ChatFrame extends JFrame {
 		}
 		MainPanel.add(scrollNamePanel, "cell 1 0 1 2,grow");
 		
-		
 	}
 		
 	/**
@@ -197,12 +231,12 @@ public class ChatFrame extends JFrame {
         
         if(!msg.isEmpty() && !target.isEmpty()){
         	inputTextArea.setText("");
-            client.send(new Message("message", client.username, msg, target));
+            client.sendToClient(new Message("message", client.username, msg, target,"nani", -1));
         }
         if(file != null){
         	long size = file.length();
             if(size < 124 * 1024 * 1024){
-                client.send(new Message("upload_req", client.username, file.getName(), usernameList.getSelectedValue().toString()));
+                client.sendToClient(new Message("upload_req", client.username, file.getName(), usernameList.getSelectedValue().toString(),"nani", -1));
             }
             else{
             	final JPanel panel = new JPanel();
@@ -228,7 +262,6 @@ public class ChatFrame extends JFrame {
 	public  JButton dirBtn;
 	private JTextArea inputTextArea;
 	public  JTextArea []chatArea = new JTextArea[50];
-	public  String username;
 	public  JList usernameList;
 	private JScrollPane scrollNamePanel;
 	private JScrollPane []scrollChatPanel = new JScrollPane[50];

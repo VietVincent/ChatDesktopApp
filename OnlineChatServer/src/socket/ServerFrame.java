@@ -28,7 +28,7 @@ public class ServerFrame extends javax.swing.JFrame {//class giao dien cua serve
     
     public ServerFrame() {//khoi tao...
     	
-    	System.out.println(filePath);
+    	
     	try {
     	    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
     	        if ("Nimbus".equals(info.getName())) {

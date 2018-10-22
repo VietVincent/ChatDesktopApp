@@ -9,7 +9,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.*;
-import ui.HistoryFrame;
 import javax.swing.table.DefaultTableModel;
 
 public class History {//class doc lich su chat chit
@@ -49,9 +48,9 @@ public class History {//class doc lich su chat chit
 	    }
 	}
 
-    public void FillTable(HistoryFrame frame){//in du lieu trong file ra bang
-
-        DefaultTableModel model = (DefaultTableModel) frame.jTable1.getModel();
+    
+    public String VoltalicChain(String nameS,String nameR){//lay du lieu theo ten
+    	String THE_STRING="";
     
         try{
             File fXmlFile = new File(filePath);
@@ -66,13 +65,25 @@ public class History {//class doc lich su chat chit
                 Node nNode = nList.item(temp);
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element eElement = (Element) nNode;
-                    model.addRow(new Object[]{getTagValue("sender", eElement), getTagValue("content", eElement), getTagValue("recipient", eElement), getTagValue("time", eElement)});
+                    String _sender = getTagValue("sender", eElement);
+                    String _content = getTagValue("content", eElement);
+                    String _recipient = getTagValue("recipient", eElement);
+                    String _time = getTagValue("time", eElement);
+                    if(nameS.equals(_sender) && nameR.equals(_recipient)) {
+                    	THE_STRING += ">>" + _sender + "\n" + _content + "\n";
+                    }else {
+                    	if(nameR.equals(_sender) && nameS.equals(_recipient)) {
+                    		THE_STRING += ">>" + _sender + "\n" + _content + "\n";
+                    	}
+                    }
                 }
             }
         }
         catch(Exception ex){
-            System.out.println("Filling Exception");
+            System.out.println("NO THING Exception");
+            return THE_STRING;
         }
+        return THE_STRING;
     }
     
     public static String getTagValue(String sTag, Element eElement) {

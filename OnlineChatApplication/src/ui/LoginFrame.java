@@ -77,7 +77,7 @@ public class LoginFrame extends javax.swing.JFrame {
         this.addWindowListener(new WindowListener() {
 
             @Override public void windowOpened(WindowEvent e) {}
-            @Override public void windowClosing(WindowEvent e) { try{ client.send(new Message("message", username, ".bye", "SERVER")); client.clientThread.stop();  }catch(Exception ex){} }
+            @Override public void windowClosing(WindowEvent e) { try{ client.sendToServer(new Message("message", username, ".bye", "SERVER","nani", -1)); client.clientThread.stop();  }catch(Exception ex){} }
             @Override public void windowClosed(WindowEvent e) {}
             @Override public void windowIconified(WindowEvent e) {}
             @Override public void windowDeiconified(WindowEvent e) {}
@@ -103,7 +103,7 @@ public class LoginFrame extends javax.swing.JFrame {
         jButton1.setForeground(UIManager.getColor("CheckBoxMenuItem.acceleratorForeground"));
         jButton1.setFont(new Font("Ubuntu", Font.BOLD, 16));
         jTextField3 = new javax.swing.JTextField();
-        jTextField3.setText("Viet");
+        jTextField3.setText("");
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
@@ -166,7 +166,7 @@ public class LoginFrame extends javax.swing.JFrame {
                 client = new SocketClient(this);
                 client.clientThread = new Thread(client);
                 client.clientThread.start();
-                client.send(new Message("test", "testUser", "testContent", "SERVER"));
+                client.sendToServer(new Message("test", "testUser", "testContent", "SERVER","nani", -1));
             }
             catch(Exception ex){
                 //jTextArea1.append("[Application > Me] : Server not found\n");
@@ -179,7 +179,7 @@ public class LoginFrame extends javax.swing.JFrame {
         password = jPasswordField1.getText();
         
         if(!username.isEmpty() && !password.isEmpty()){
-            client.send(new Message("login", username, password, "SERVER"));
+            client.sendToServer(new Message("login", username, password, "SERVER","nani", -1));
         }
         else {
         	final JPanel panel = new JPanel();
@@ -192,7 +192,7 @@ public class LoginFrame extends javax.swing.JFrame {
         password = jPasswordField1.getText();
         
         if(!username.isEmpty() && !password.isEmpty()){
-            client.send(new Message("signup", username, password, "SERVER"));
+            client.sendToServer(new Message("signup", username, password, "SERVER","nani", -1));
         }
         else {
         	final JPanel panel = new JPanel();
