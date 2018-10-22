@@ -15,6 +15,8 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.UIManager.LookAndFeelInfo;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
@@ -74,6 +76,17 @@ public class ChatFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public ChatFrame() {
+		try {
+    	    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+    	        if ("Nimbus".equals(info.getName())) {
+    	            UIManager.setLookAndFeel(info.getClassName());
+    	            break;
+    	        }
+    	    }
+    	} catch (Exception e) {
+    	    // If Nimbus is not available, you can set the GUI to another look and feel.
+    	}
+		hist = new History(historyFile);//=========>
 		setTitle("JatQ");
 		setResizable(false);
 		setBackground(Color.DARK_GRAY);
@@ -197,12 +210,12 @@ public class ChatFrame extends JFrame {
         
         if(!msg.isEmpty() && !target.isEmpty()){
         	inputTextArea.setText("");
-            client.send(new Message("message", client.username, msg, target));
+            client.sendToClient(new Message("message", client.username, msg, target,"nani", -1));
         }
         if(file != null){
         	long size = file.length();
             if(size < 124 * 1024 * 1024){
-                client.send(new Message("upload_req", client.username, file.getName(), usernameList.getSelectedValue().toString()));
+                client.sendToClient(new Message("upload_req", client.username, file.getName(), usernameList.getSelectedValue().toString(),"nani", -1));
             }
             else{
             	final JPanel panel = new JPanel();
