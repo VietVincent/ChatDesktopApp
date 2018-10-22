@@ -181,6 +181,9 @@ public class SocketClient implements Runnable{//class chay client
                         clientThread.stop();
                     }
                     else{
+                    	if(msg.content.equals(ui_Chat.usernameList.getSelectedValue().toString())) {
+                    		ui_Chat.usernameList.setSelectedIndex(0);
+                    	}
                         ui_Chat.model.removeElement(msg.content);
                         for(int i = 0 ; i < ports.size(); i++) {
                         	if(msg.content.equalsIgnoreCase(usernames.get(i))) {
@@ -190,8 +193,8 @@ public class SocketClient implements Runnable{//class chay client
                                  break;
                         	}
                         }
-                       
                         ui_Chat.chatArea[0].append( msg.content +" has already logged out!\n");
+                       
                     }
                 }
                 else{
