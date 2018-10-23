@@ -56,7 +56,7 @@ public class LoginFrame extends javax.swing.JFrame {
     	    // If Nimbus is not available, you can set the GUI to another look and feel.
     	}
         initComponents();
-        this.setTitle("Online Chat Application");
+        this.setTitle("JatQ");
         this.setSize(500, 150);
         this.setResizable(false); //====================================>
         model = new DefaultListModel();//=====================================>

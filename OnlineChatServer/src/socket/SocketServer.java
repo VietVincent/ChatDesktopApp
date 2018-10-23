@@ -154,8 +154,11 @@ public class SocketServer implements Runnable {//cai nay de quan li 1 list cac s
 	
     public synchronized void handle(int ID, Message msg){//cai ham xu li Message chu j  
 	if (msg.content.equals(".bye")){//nhan duoc tin hieu logout day ma
-            Announce("signout", "SERVER", msg.sender,"nani",-1);//in ra ban sender da signout
-            remove(ID); //roi cho ra khoi danh sach
+		if(clientCount < 2) remove(ID);
+		else {
+			Announce("signout", "SERVER", msg.sender,"nani",-1);//in ra ban sender da signout
+        	remove(ID); //roi cho ra khoi danh sach
+		}
 	}
 	else{
             if(msg.type.equals("login")){//type == login thi message thuoc he login
