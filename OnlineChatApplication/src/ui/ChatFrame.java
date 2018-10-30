@@ -45,6 +45,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import ui.LoginFrame;
+import javax.swing.ImageIcon;
 
 public class ChatFrame extends JFrame {
 	/**
@@ -124,7 +125,7 @@ public class ChatFrame extends JFrame {
 			}
 		});
 		scrollNamePanel.setViewportView(usernameList);
-		MainPanel.setLayout(new MigLayout("", "[610px][112px]", "[390.00px][72.00px,center][-32.00]"));
+		MainPanel.setLayout(new MigLayout("", "[610px][112px,grow]", "[390.00px][72.00px,grow,center][-32.00]"));
 		MainPanel.add(functionPanel, "cell 0 1,grow");
 		
 		scrollTextingPanel = new JScrollPane();
@@ -212,7 +213,20 @@ public class ChatFrame extends JFrame {
 			chatArea[i].setColumns(20);
 			scrollChatPanel[i].setViewportView(chatArea[i]);
 		}
-		MainPanel.add(scrollNamePanel, "cell 1 0 1 2,grow");
+		MainPanel.add(scrollNamePanel, "cell 1 0,grow");
+		
+		videoCallPanel = new JPanel();
+		videoCallPanel.setBackground(Color.LIGHT_GRAY);
+		MainPanel.add(videoCallPanel, "cell 1 1,grow");
+		videoCallPanel.setLayout(null);
+		
+		JButton btnNewButton = new JButton("Call");
+		btnNewButton.setBounds(0, 6, 112, 42);
+		btnNewButton.setForeground(new Color(34, 139, 34));
+		btnNewButton.setFont(new Font("Ubuntu", Font.BOLD, 16));
+		btnNewButton.setBackground(new Color(152, 251, 152));
+		btnNewButton.setIcon(new ImageIcon("/home/viet/Projects/Java Code/JatQ/OnlineChatApplication/img/whatsapp.png"));
+		videoCallPanel.add(btnNewButton);
 		
 	}
 		
@@ -266,4 +280,5 @@ public class ChatFrame extends JFrame {
 	private JScrollPane scrollNamePanel;
 	private JScrollPane []scrollChatPanel = new JScrollPane[50];
 	private JScrollPane scrollTextingPanel;
+	private JPanel videoCallPanel;
 }

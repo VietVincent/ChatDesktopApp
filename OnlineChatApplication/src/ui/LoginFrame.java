@@ -61,18 +61,18 @@ public class LoginFrame extends javax.swing.JFrame {
         this.setResizable(false); //====================================>
         model = new DefaultListModel();//=====================================>
         model.addElement("All");
-        getContentPane().setLayout(new MigLayout("", "[59px][157px][81px][73px][13px][84px]", "[19px][27px][25px]"));
-        getContentPane().add(jLabel1, "cell 0 0,alignx left,aligny top");
-        getContentPane().add(jTextField1, "cell 1 0,growx,aligny top");
-        getContentPane().add(jLabel4, "cell 2 0,alignx left,aligny center");
-        getContentPane().add(jTextField3, "cell 3 0 3 1,growx,aligny top");
-        getContentPane().add(jLabel2, "cell 0 1,alignx right,aligny top");
-        getContentPane().add(jTextField2, "cell 1 1,growx,aligny bottom");
-        getContentPane().add(jLabel3, "cell 2 1,alignx right,aligny center");
-        getContentPane().add(jPasswordField1, "cell 3 1 3 1,growx,aligny center");
-        getContentPane().add(jButton1, "cell 1 2,growx,aligny top");
-        getContentPane().add(jButton2, "cell 3 2,alignx left,aligny top");
-        getContentPane().add(jButton3, "cell 5 2,growx,aligny top");
+        getContentPane().setLayout(new MigLayout("", "[59px][157px][81px][80.00px][1.00px][80.00px]", "[19px][27px][25px]"));
+        getContentPane().add(serverLabel, "cell 0 0,alignx right,aligny top");
+        getContentPane().add(serverTextField, "cell 1 0,growx,aligny top");
+        getContentPane().add(usernameLabel, "cell 2 0,alignx right,aligny center");
+        getContentPane().add(usernameTextField, "cell 3 0 3 1,growx,aligny top");
+        getContentPane().add(portLabel, "cell 0 1,alignx right,aligny top");
+        getContentPane().add(portTextField, "cell 1 1,growx,aligny bottom");
+        getContentPane().add(passwordLabel, "cell 2 1,alignx right,aligny center");
+        getContentPane().add(passwordField, "cell 3 1 3 1,growx,aligny center");
+        getContentPane().add(connectBnt, "cell 1 2,growx,aligny top");
+        getContentPane().add(loginBnt, "cell 3 2,growx,aligny top");
+        getContentPane().add(signupBnt, "cell 5 2,growx,aligny top");
         
         this.addWindowListener(new WindowListener() {
 
@@ -95,60 +95,64 @@ public class LoginFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton1.setForeground(UIManager.getColor("CheckBoxMenuItem.acceleratorForeground"));
-        jButton1.setFont(new Font("Ubuntu", Font.BOLD, 16));
-        jTextField3 = new javax.swing.JTextField();
-        jTextField3.setText("");
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
-        jButton3.setForeground(UIManager.getColor("CheckBoxMenuItem.acceleratorForeground"));
-        jButton3.setFont(new Font("Ubuntu", Font.BOLD, 16));
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jPasswordField1.setToolTipText("");
-        jButton2 = new javax.swing.JButton();
-        jButton2.setForeground(UIManager.getColor("CheckBoxMenuItem.acceleratorForeground"));
-        jButton2.setFont(new Font("Ubuntu", Font.BOLD, 16));
+        serverLabel = new javax.swing.JLabel();
+        serverLabel.setFont(new Font("Ubuntu", Font.BOLD, 16));
+        serverTextField = new javax.swing.JTextField();
+        portLabel = new javax.swing.JLabel();
+        portLabel.setFont(new Font("Ubuntu", Font.BOLD, 16));
+        portTextField = new javax.swing.JTextField();
+        connectBnt = new javax.swing.JButton();
+        connectBnt.setForeground(UIManager.getColor("CheckBoxMenuItem.acceleratorForeground"));
+        connectBnt.setFont(new Font("Ubuntu", Font.BOLD, 16));
+        usernameTextField = new javax.swing.JTextField();
+        usernameTextField.setText("");
+        passwordLabel = new javax.swing.JLabel();
+        passwordLabel.setFont(new Font("Ubuntu", Font.BOLD, 16));
+        usernameLabel = new javax.swing.JLabel();
+        usernameLabel.setFont(new Font("Ubuntu", Font.BOLD, 16));
+        signupBnt = new javax.swing.JButton();
+        signupBnt.setForeground(UIManager.getColor("CheckBoxMenuItem.acceleratorForeground"));
+        signupBnt.setFont(new Font("Ubuntu", Font.BOLD, 16));
+        passwordField = new javax.swing.JPasswordField();
+        passwordField.setToolTipText("");
+        loginBnt = new javax.swing.JButton();
+        loginBnt.setForeground(UIManager.getColor("CheckBoxMenuItem.acceleratorForeground"));
+        loginBnt.setFont(new Font("Ubuntu", Font.BOLD, 16));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Server : ");
+        serverLabel.setText("Server : ");
 
-        jTextField1.setText("localhost");
+        serverTextField.setText("localhost");
 
-        jLabel2.setText("Port : ");
+        portLabel.setText("Port : ");
 
-        jTextField2.setText("37011");
+        portTextField.setText("37011");
 
-        jButton1.setText("Connect");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        connectBnt.setText("Connect");
+        connectBnt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        jTextField3.setEnabled(false);
+        usernameTextField.setEnabled(false);
 
-        jLabel3.setText("Password :");
+        passwordLabel.setText("Password :");
 
-        jLabel4.setText("Username :");
+        usernameLabel.setText("Username :");
 
-        jButton3.setText("SignUp");
-        jButton3.setEnabled(false);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        signupBnt.setText("SignUp");
+        signupBnt.setEnabled(false);
+        signupBnt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
-        jPasswordField1.setEnabled(false);
+        passwordField.setEnabled(false);
 
-        jButton2.setText("Login");
-        jButton2.setEnabled(false);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        loginBnt.setText("Login");
+        loginBnt.setEnabled(false);
+        loginBnt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
@@ -158,10 +162,10 @@ public class LoginFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        serverAddr = jTextField1.getText(); 
-        port = Integer.parseInt(jTextField2.getText());
+        serverAddr = serverTextField.getText(); 
+        port = Integer.parseInt(portTextField.getText());
         
-        if(!serverAddr.isEmpty() && !jTextField2.getText().isEmpty()){
+        if(!serverAddr.isEmpty() && !portTextField.getText().isEmpty()){
             try{
                 client = new SocketClient(this);
                 client.clientThread = new Thread(client);
@@ -175,8 +179,8 @@ public class LoginFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        username = jTextField3.getText();
-        password = jPasswordField1.getText();
+        username = usernameTextField.getText();
+        password = passwordField.getText();
         
         if(!username.isEmpty() && !password.isEmpty()){
             client.sendToServer(new Message("login", username, password, "SERVER","nani", -1));
@@ -188,8 +192,8 @@ public class LoginFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        username = jTextField3.getText();
-        password = jPasswordField1.getText();
+        username = usernameTextField.getText();
+        password = passwordField.getText();
         
         if(!username.isEmpty() && !password.isEmpty()){
             client.sendToServer(new Message("signup", username, password, "SERVER","nani", -1));
@@ -215,16 +219,16 @@ public class LoginFrame extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JButton jButton1;
-    public javax.swing.JButton jButton2;
-    public javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    public javax.swing.JPasswordField jPasswordField1;
-    public javax.swing.JTextField jTextField1;
-    public javax.swing.JTextField jTextField2;
-    public javax.swing.JTextField jTextField3;
+    public javax.swing.JButton connectBnt;
+    public javax.swing.JButton loginBnt;
+    public javax.swing.JButton signupBnt;
+    private javax.swing.JLabel serverLabel;
+    private javax.swing.JLabel portLabel;
+    private javax.swing.JLabel passwordLabel;
+    private javax.swing.JLabel usernameLabel;
+    public javax.swing.JPasswordField passwordField;
+    public javax.swing.JTextField serverTextField;
+    public javax.swing.JTextField portTextField;
+    public javax.swing.JTextField usernameTextField;
     // End of variables declaration//GEN-END:variables
 }
